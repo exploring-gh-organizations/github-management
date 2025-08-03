@@ -1,0 +1,94 @@
+{
+  ".github": {
+    "description": "Organization-wide GitHub configurations, workflows, and community templates",
+    "visibility": "public",
+    "topics": [
+      "github",
+      "workflows",
+      "templates",
+      "community",
+      "automation"
+    ],
+    "has_wiki": true,
+    "has_discussions": true,
+    "license_template": "mit",
+    "teams": {
+      "admin": "admin",
+      "platform": "maintain",
+      "ai": "pull",
+      "app": "pull"
+    }
+  },
+  "github-management": {
+    "description": "Infrastructure as Code for GitHub organization, repositories, and security management",
+    "visibility": "public",
+    "topics": [
+      "terraform",
+      "github",
+      "infrastructure",
+      "security",
+      "automation"
+    ],
+    "gitignore_template": "Terraform",
+    "allow_auto_merge": false,
+    "teams": {
+      "admin": "admin",
+      "platform": "maintain"
+    }
+  },
+  "infra-modules": {
+    "description": "Reusable Terraform modules for cloud infrastructure and Kubernetes platform components",
+    "visibility": "public",
+    "topics": [
+      "terraform",
+      "modules",
+      "infrastructure",
+      "kubernetes",
+      "cloud"
+    ],
+    "gitignore_template": "Terraform",
+    "allow_auto_merge": false,
+    "teams": {
+      "admin": "admin",
+      "platform": "maintain",
+      "ai": "pull",
+      "app": "pull"
+    }
+  },
+  "infra-live": {
+    "description": "Live infrastructure configurations managed with Terragrunt for environment-specific deployments",
+    "visibility": "public",
+    "topics": [
+      "terragrunt",
+      "terraform",
+      "infrastructure",
+      "environments",
+      "production"
+    ],
+    "gitignore_template": "Terraform",
+    "allow_auto_merge": false,
+    "teams": {
+      "admin": "admin",
+      "platform": "maintain"
+    }
+  },
+  "gitops": {
+    "description": "GitOps repository for Kubernetes application deployments using ArgoCD and Helm",
+    "visibility": "public",
+    "topics": [
+      "gitops",
+      "kubernetes",
+      "argocd",
+      "helm",
+      "deployments"
+    ],
+    "gitignore_template": "Terraform",
+    "allow_auto_merge": false,
+    "teams": {
+      "admin": "admin",
+      "platform": "maintain",
+      "ai": "push",
+      "app": "push"
+    }
+  }
+}

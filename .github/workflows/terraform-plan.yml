@@ -1,0 +1,21 @@
+name: Terraform Plan
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6"
+      - name: Terraform Init
+        run: terraform init
+        working-directory: live
+      - name: Terraform Plan
+        run: terraform plan -no-color
+        working-directory: live
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}

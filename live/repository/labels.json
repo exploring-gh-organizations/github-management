@@ -1,0 +1,12 @@
+[
+  {
+    "name": "bug",
+    "color": "d73a4a",
+    "description": "Something isn't working"
+  },
+  {
+    "name": "stuff",
+    "color": "a2eeef",
+    "description": "Stuff"
+  }
+]

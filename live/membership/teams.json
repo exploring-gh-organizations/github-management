@@ -1,0 +1,18 @@
+{
+  "admin": {
+    "description": "Organization wide access, manages day to day organization management",
+    "privacy": "closed"
+  },
+  "platform": {
+    "description": "Platform engineering and infrastructure team",
+    "privacy": "closed"
+  },
+  "ai": {
+    "description": "AI/ML engineering team",
+    "privacy": "closed"
+  },
+  "app": {
+    "description": "Application development team",
+    "privacy": "closed"
+  }
+}

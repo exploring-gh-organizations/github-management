@@ -1,0 +1,33 @@
+name: Terraform Apply
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+      - 'data/**'
+
+jobs:
+  terraform-apply:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ~1.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: live
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: live
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

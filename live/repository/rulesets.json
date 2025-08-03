@@ -1,0 +1,45 @@
+{
+  "standard-protection": {
+    "name": "Standard Repository Protection",
+    "target": "branch",
+    "enforcement": "active",
+    "target_branches": [
+      "~DEFAULT_BRANCH"
+    ],
+    "repository_names": [
+      ".github",
+      "docs",
+      "github-management",
+      "infra-modules",
+      "infra-live",
+      "gitops",
+      "ai-ml-demo",
+      "ai-bert-demo",
+      "ai-qwen-demo",
+      "demo-app-frontend",
+      "demo-app-backend"
+    ],
+    "bypass_teams": [
+      "admin"
+    ],
+    "rules": {
+      "required_signatures": false,
+      "required_linear_history": false,
+      "allow_force_pushes": false,
+      "allow_deletions": false,
+      "block_creations": false,
+      "pull_request": {
+        "required_approvals": 1,
+        "dismiss_stale_reviews": true,
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": true
+      },
+      "required_status_checks": [
+        {
+          "context": "Code Quality"
+        }
+      ]
+    }
+  }
+}

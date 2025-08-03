@@ -1,0 +1,49 @@
+name: Terraform Plan
+on:
+  pull_request:
+    branches: [main]
+    # paths:
+    #   - '**/*.tf'
+    #   - '**/*.tfvars'
+    #   - 'data/**'
+
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ~1.6
+      - name: Terraform Init
+        run: terraform init -input=false
+        working-directory: live
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -out=tfplan -input=false
+        working-directory: live
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          # Optional overrides - only set these secrets if you want to override defaults
+          # TF_VAR_name: ${{ secrets.ORG_NAME }}
+          # TF_VAR_description: ${{ secrets.ORG_DESCRIPTION }}
+          # TF_VAR_blog_url: ${{ secrets.ORG_BLOG_URL }}
+          # TF_VAR_billing_email: ${{ secrets.ORG_BILLING_EMAIL }}
+          # TF_VAR_org_email: ${{ secrets.ORG_EMAIL }}
+          # TF_VAR_github_owner: ${{ secrets.GITHUB_OWNER }}
+      - name: Comment PR with TF Plan
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const output = `#### Terraform Plan 📖\n\n<details><summary>Show Plan</summary>\n\n\`\`\`terraform\n${{ steps.plan.outputs.stdout }}\n\`\`\`\n\n</details>\n\n*Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })

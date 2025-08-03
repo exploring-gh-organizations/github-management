@@ -1,0 +1,66 @@
+{
+	"name": "Exploring Github Organizations",
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/terraform:1": {
+			"installSentinel": true,
+			"installTFsec": false,
+			"installTerraformDocs": true,
+			"version": "latest",
+			"tflint": "latest",
+			"terragrunt": "latest"
+		},
+		"ghcr.io/itsmechlark/features/trivy:1": {},
+		"ghcr.io/devcontainers-extra/features/pre-commit:2": {},
+		"ghcr.io/devcontainers-extra/features/act:1": {},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+	},
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
+	"runArgs": [
+		"--network=host"
+	],
+	"postCreateCommand": "sudo usermod -aG docker vscode && pre-commit install && pre-commit run --all-files",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				// Code completion and AI
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				// Code formatting and linting
+				"ms-azuretools.vscode-docker",
+				"ms-vscode.makefile-tools",
+				"hashicorp.terraform",
+				"nhoizey.gremlins",
+				"hashicorp.hcl",
+				"yzhang.markdown-all-in-one",
+				// Project management
+				"Gruntfuggly.todo-tree",
+				"eamodio.gitlens",
+				// Visuals
+				"oderwat.indent-rainbow"
+			],
+			"settings": {
+				"editor.tabSize": 2,
+				"editor.autoIndent": "advanced",
+				"editor.formatOnPaste": true,
+				"editor.formatOnSave": true,
+				"github.copilot.nextEditSuggestions.enabled": true,
+				// Intent rainbow
+				"indentRainbow.indicatorStyle": "light",
+				"indentRainbow.lightIndicatorStyleLineWidth": 1,
+				"indentRainbow.colors": [
+					"rgba(255,255,64,0.3)",
+					"rgba(127,255,127,0.3)",
+					"rgba(255,127,255,0.3)",
+					"rgba(79,236,236,0.3)"
+				],
+				// The indent color if the number of spaces is not a multiple of "tabSize".
+				"indentRainbow.errorColor": "rgba(128,32,32,0.6)"
+			}
+		}
+	},
+	"remoteUser": "vscode"
+}

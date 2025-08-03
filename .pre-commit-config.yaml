@@ -1,0 +1,177 @@
+exclude: |
+  (?x)^(
+      .*\{\{.*\}\}.*|     # Exclude any files with cookiecutter variables
+      docs/site/.*|       # Exclude mkdocs compiled files
+      \.history/.*|       # Exclude history files
+      .*cache.*/.*|       # Exclude cache directories
+  )$
+fail_fast: true
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+repos:
+  #
+  # Documentation Here:
+  # https://gatlenculp.github.io/gatlens-opinionated-template/precommit/
+  #
+  # ---------------------------------------------------------------------------- #
+  #                              🔄 Pre-Commit Hooks                             #
+  # ---------------------------------------------------------------------------- #
+
+  # ----------------------------- 🔒 Security Tools ---------------------------- #
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+        name: "🔒 security · Detect hardcoded secrets"
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key
+        name: "🔒 security · Check for committed private keys"
+      - id: detect-aws-credentials
+        name: "🔒 security · Check for committed AWS credentials"
+        args: [--allow-missing-credentials]
+
+  # --------------------------- 🔍 Code Quality Tools -------------------------- #
+
+  ### Terraform Tools ###
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.99.5
+    hooks:
+      - id: terraform_fmt
+        name: "🌍 terraform · Format Terraform code"
+      - id: terraform_validate
+        name: "🌍 terraform · Validate Terraform syntax"
+      - id: terraform_tflint
+        name: "🌍 terraform · Lint with tflint"
+      - id: terraform_trivy
+        name: "🔐 terraform · Security scan with Trivy"
+
+
+
+
+  ### Data & Config Validation ###
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.32.1
+    hooks:
+      - id: check-github-workflows
+        name: "🐙 github-actions · Validate gh workflow files"
+        args: ["--verbose"]
+      - id: check-taskfile
+        name: "✅ taskfile · Validate Task configuration"
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-json
+        name: "📄 json · Validate JSON syntax"
+        exclude: '^\.devcontainer/devcontainer\.json$'
+      - id: check-yaml
+        name: "📄 yaml · Validate YAML syntax"
+        args: [--allow-multiple-documents]
+      - id: check-toml
+        name: "📄 toml · Validate TOML syntax"
+      - id: check-xml
+        name: "📄 xml · Validate XML syntax"
+
+  ### Markdown ###
+  - repo: https://github.com/hukkin/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        name: "📝 markdown · Format markdown"
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-ruff
+          - mdformat-frontmatter
+          - ruff
+
+  ### Shell ###
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        name: "🐚 shell · Check shell scripts"
+        args: ["--severity=warning"]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        name: "🐚 shell · Lint shell scripts"
+
+  # -------------------------- 📝 Spell Checking Tools ------------------------- #
+
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.30.3
+    hooks:
+      - id: typos
+        name: "📝 spell · Check spelling in all files"
+        exclude: '\.svg$'
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        name: "📝 spell · Check spelling in code files"
+        args: ["--skip=*.lock,*.svg,*.min.js"]
+
+  # ---------------------------- 📁 Filesystem Tools --------------------------- #
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # Basic File Checks
+      - id: trailing-whitespace
+        name: "📁 filesystem/📄 format · Remove trailing whitespace"
+      - id: end-of-file-fixer
+        name: "📁 filesystem/📄 format · Ensure files end with newline"
+      - id: mixed-line-ending
+        name: "📁 filesystem/📄 format · Normalize line endings"
+        args: ["--fix=lf"]
+      # Filesystem Checks
+      - id: check-executables-have-shebangs
+        name: "📁 filesystem/⚙️ exec · Verify shebang presence"
+      - id: check-shebang-scripts-are-executable
+        name: "📁 filesystem/⚙️ exec · Verify script permissions"
+      - id: check-case-conflict
+        name: "📁 filesystem/📝 names · Check case sensitivity"
+      - id: check-illegal-windows-names
+        name: "📁 filesystem/📝 names · Validate Windows filenames"
+      - id: check-symlinks
+        name: "📁 filesystem/🔗 symlink · Check symlink validity"
+      - id: destroyed-symlinks
+        name: "📁 filesystem/🔗 symlink · Detect broken symlinks"
+      - id: check-added-large-files
+        name: "📁 filesystem/📄 size · Block large file commits"
+        args: ["--maxkb=5000"]
+
+  # ------------------------------- 🌳 Git Tools ------------------------------ #
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+        name: "🌳 git · Detect conflict markers"
+      - id: forbid-new-submodules
+        name: "🌳 git · Prevent submodule creation"
+      # - id: no-commit-to-branch
+      #   name: "🌳 git · Protect main branches"
+      #   args: ["--branch", "main", "--branch", "master"]
+
+  # ---------------------------------------------------------------------------- #
+  #                            📝 Commit Message Hooks                           #
+  # ---------------------------------------------------------------------------- #
+  # --------------------------- ✍️ Git Commit Quality -------------------------- #
+
+  ### Commit Message Standards ###
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.4.1
+    hooks:
+      - id: commitizen
+        name: "🌳 git · Validate commit message"
+        stages: [commit-msg]
+        additional_dependencies: [cz-conventional-gitmoji]
