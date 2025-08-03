@@ -113,7 +113,7 @@ The configuration supports both the current solo development phase and future te
    ```bash
    # Set your GitHub token
    export GITHUB_OWNER="exploring-gh-organizations"
-   export GITHUB_TOKEN="ghp_XXXXXX"
+   export GITHUB_TOKEN="ghp_XXXXXXX"
 
 
    # Copy and customize the example variables
