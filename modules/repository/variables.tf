@@ -97,24 +97,94 @@ variable "rulesets" {
     bypass_teams     = optional(list(string), [])
 
     rules = object({
-      required_signatures     = optional(bool, false)
-      required_linear_history = optional(bool, false)
-      allow_force_pushes      = optional(bool, false)
-      allow_deletions         = optional(bool, false)
-      block_creations         = optional(bool, false)
+      # Basic rules
+      creation                      = optional(bool, false)
+      deletion                      = optional(bool, false)
+      update                        = optional(bool, false)
+      non_fast_forward              = optional(bool, true)
+      required_linear_history       = optional(bool, false)
+      required_signatures           = optional(bool, false)
+      update_allows_fetch_and_merge = optional(bool, false)
 
+      # Pull request rules
       pull_request = optional(object({
-        required_approvals                = optional(number, 1)
-        dismiss_stale_reviews             = optional(bool, true)
+        required_approving_review_count   = optional(number, 1)
+        dismiss_stale_reviews_on_push     = optional(bool, true)
         require_code_owner_review         = optional(bool, false)
         require_last_push_approval        = optional(bool, false)
         required_review_thread_resolution = optional(bool, true)
       }))
 
-      required_status_checks = optional(list(object({
-        context        = string
-        integration_id = optional(number)
-      })), [])
+      # Status checks
+      required_status_checks = optional(object({
+        strict_required_status_checks_policy = optional(bool, true)
+        do_not_enforce_on_create             = optional(bool, false)
+        required_check = list(object({
+          context        = string
+          integration_id = optional(number)
+        }))
+      }))
+
+      # Code scanning
+      required_code_scanning = optional(object({
+        required_code_scanning_tool = list(object({
+          tool                      = string
+          alerts_threshold          = string
+          security_alerts_threshold = string
+        }))
+      }))
+
+      # Deployment environments
+      required_deployments = optional(object({
+        required_deployment_environments = list(string)
+      }))
+
+      # Merge queue
+      merge_queue = optional(object({
+        check_response_timeout_minutes    = optional(number, 60)
+        grouping_strategy                 = optional(string, "ALLGREEN")
+        max_entries_to_build              = optional(number, 5)
+        max_entries_to_merge              = optional(number, 5)
+        merge_method                      = optional(string, "MERGE")
+        min_entries_to_merge              = optional(number, 1)
+        min_entries_to_merge_wait_minutes = optional(number, 5)
+      }))
+
+      # Patterns (Enterprise features - may not work on free tier)
+      branch_name_pattern = optional(object({
+        name     = optional(string)
+        operator = string
+        pattern  = string
+        negate   = optional(bool, false)
+      }))
+
+      commit_message_pattern = optional(object({
+        name     = optional(string)
+        operator = string
+        pattern  = string
+        negate   = optional(bool, false)
+      }))
+
+      commit_author_email_pattern = optional(object({
+        name     = optional(string)
+        operator = string
+        pattern  = string
+        negate   = optional(bool, false)
+      }))
+
+      committer_email_pattern = optional(object({
+        name     = optional(string)
+        operator = string
+        pattern  = string
+        negate   = optional(bool, false)
+      }))
+
+      tag_name_pattern = optional(object({
+        name     = optional(string)
+        operator = string
+        pattern  = string
+        negate   = optional(bool, false)
+      }))
     })
   }))
   default = {}
