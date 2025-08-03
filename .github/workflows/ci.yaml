@@ -1,0 +1,11 @@
+# .github/workflows/ci.yml
+name: CI
+on:
+  pull_request:
+    paths: ['live/**', 'modules/**']
+
+jobs:
+  terragrunt:
+    uses: exploring-gh-organizations/.github/.github/workflows/terragrunt-ci.yml@main
+    with:
+      working_directory: ./live
