@@ -6,7 +6,7 @@ on:
 
 jobs:
   terragrunt:
-    uses: exploring-gh-organizations/.github/.github/workflows/terragrunt-ci.yml@main
+    uses: exploring-gh-organizations/.github/.github/workflows/terragrunt-ci.yaml@main
     permissions:
       contents: read
       pull-requests: write
