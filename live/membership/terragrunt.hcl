@@ -9,8 +9,8 @@ terraform {
 locals {
   # Load JSON files from current directory
   organization_members = jsondecode(file("${get_terragrunt_dir()}/members.json"))
-  teams = jsondecode(file("${get_terragrunt_dir()}/teams.json"))
-  
+  teams                = jsondecode(file("${get_terragrunt_dir()}/teams.json"))
+
   # Load team members dynamically
   team_member_files = fileset("${get_terragrunt_dir()}/team-members", "*.json")
   team_members = flatten([
@@ -21,6 +21,6 @@ locals {
 
 inputs = {
   organization_members = local.organization_members
-  teams               = local.teams
-  team_members        = local.team_members
+  teams                = local.teams
+  team_members         = local.team_members
 }

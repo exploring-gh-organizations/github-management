@@ -17,16 +17,16 @@ dependency "membership" {
 locals {
   # Load JSON files from current directory
   repositories = jsondecode(file("${get_terragrunt_dir()}/repositories.json"))
-  rulesets = jsondecode(file("${get_terragrunt_dir()}/rulesets.json"))
-  labels = jsondecode(file("${get_terragrunt_dir()}/labels.json"))
-  milestones = jsondecode(file("${get_terragrunt_dir()}/milestones.json"))
+  rulesets     = jsondecode(file("${get_terragrunt_dir()}/rulesets.json"))
+  labels       = jsondecode(file("${get_terragrunt_dir()}/labels.json"))
+  milestones   = jsondecode(file("${get_terragrunt_dir()}/milestones.json"))
 }
 
 inputs = {
   repositories       = local.repositories
-  rulesets          = local.rulesets
-  labels            = local.labels
-  milestones        = local.milestones
+  rulesets           = local.rulesets
+  labels             = local.labels
+  milestones         = local.milestones
   organization_teams = dependency.membership.outputs.teams
   organization_name  = "exploring-gh-organizations"
 }
