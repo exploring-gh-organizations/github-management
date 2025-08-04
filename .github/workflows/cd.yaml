@@ -1,0 +1,14 @@
+# In github-management/.github/workflows/ci.yml
+name: CD
+on:
+  pull_request:
+    paths: ['live/**', 'modules/**']
+
+jobs:
+  terragrunt:
+    uses: exploring-gh-organizations/.github/.github/workflows/terragrunt-cd.yml@main
+    permissions:
+      contents: read
+      pull-requests: write
+    with:
+      working_directory: ./live
