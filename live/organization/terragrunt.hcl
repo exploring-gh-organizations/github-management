@@ -25,12 +25,12 @@ dependency "repositories" {
 locals {
   # Load JSON files from current directory
   organization_settings = jsondecode(file("${get_terragrunt_dir()}/organization.json"))
-  rulesets = jsondecode(file("${get_terragrunt_dir()}/rulesets.json"))
+  rulesets              = jsondecode(file("${get_terragrunt_dir()}/rulesets.json"))
 }
 
 inputs = {
   organization_settings      = local.organization_settings
-  rulesets                  = local.rulesets
+  rulesets                   = local.rulesets
   security_manager_team_slug = "admin"
-  github_teams              = dependency.membership.outputs.teams
+  github_teams               = dependency.membership.outputs.teams
 }
