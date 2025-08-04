@@ -1,6 +1,7 @@
 {
   "billing_email": "your-email@example.com",
   "name": "Example",
+  "description": "GH org Playground example",
   "description": "GH org Playground",
   "has_organization_projects": true,
   "has_repository_projects": false,
